@@ -1,0 +1,1431 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Til Daftari — Essential Words</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600;700&family=Manrope:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#f6f1e3;
+    --paper-line:#d9cfb3;
+    --margin-red:#c0392b;
+    --ink:#232946;
+    --ink-soft:#4b5170;
+    --pen-red:#c0392b;
+    --highlight:#c7d94b;
+    --gold:#c8961e;
+    --card:#fffdf6;
+    --shadow: 0 6px 18px rgba(35,41,70,0.12);
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:
+      repeating-linear-gradient(
+        to bottom,
+        transparent 0px,
+        transparent 37px,
+        var(--paper-line) 38px
+      ),
+      var(--paper);
+    color:var(--ink);
+    font-family:'Manrope', sans-serif;
+    position:relative;
+    overflow-x:hidden;
+  }
+  body::before{
+    content:"";
+    position:fixed;
+    top:0; left:56px; bottom:0;
+    width:2px;
+    background:var(--margin-red);
+    opacity:.55;
+    z-index:1;
+  }
+  body::after{
+    content:"";
+    position:fixed;
+    top:0; left:48px; bottom:0;
+    width:14px;
+    background:
+      radial-gradient(circle, rgba(35,41,70,.18) 2.5px, transparent 2.6px) 0 20px / 100% 60px repeat-y;
+    z-index:1;
+  }
+
+  .wrap{max-width:920px; margin:0 auto; padding:0 24px 100px 84px; position:relative; z-index:2;}
+  @media (max-width:640px){
+    .wrap{padding-left:64px;}
+    body::before{left:44px;}
+    body::after{left:36px;}
+  }
+
+  /* ---- Welcome screen ---- */
+  .welcome{
+    position:fixed; inset:0; z-index:50;
+    display:flex; align-items:center; justify-content:center;
+    flex-direction:column; text-align:center;
+    background:
+      repeating-linear-gradient(to bottom, transparent 0px, transparent 37px, var(--paper-line) 38px),
+      var(--paper);
+    padding:24px;
+    transition:opacity .4s ease, visibility .4s ease;
+  }
+  .welcome.hide{opacity:0; visibility:hidden; pointer-events:none;}
+  .welcome .wave{font-size:3rem; margin-bottom:8px; animation:wave 1.6s ease-in-out infinite;}
+  @keyframes wave{0%,100%{transform:rotate(0deg);} 25%{transform:rotate(18deg);} 75%{transform:rotate(-10deg);}}
+  .welcome h1{font-size:clamp(2.2rem, 9vw, 3.6rem); margin:0 0 8px; color:var(--ink);}
+  .welcome h1 .accent{color:var(--pen-red);}
+  .welcome p{color:var(--ink-soft); max-width:44ch; line-height:1.55; margin:0 0 28px;}
+  .welcome .eyebrow{margin-bottom:18px;}
+  .welcome-form{display:flex; flex-direction:column; gap:12px; width:100%; max-width:320px; margin-bottom:10px;}
+  .welcome-form input{
+    font-family:'Manrope', sans-serif;
+    font-size:.95rem;
+    padding:13px 16px;
+    border:2px solid var(--paper-line);
+    border-radius:10px;
+    background:var(--card);
+    color:var(--ink);
+  }
+  .welcome-form input:focus-visible{outline:3px solid var(--gold); outline-offset:1px; border-color:var(--ink-soft);}
+  .welcome-error{color:var(--pen-red); font-size:.82rem; font-family:'Manrope', sans-serif; min-height:18px; margin:-2px 0 4px;}
+  .level-picker{display:flex; gap:10px; margin-bottom:6px;}
+  .level-btn{
+    font-family:'Space Mono', monospace;
+    font-weight:700;
+    font-size:.9rem;
+    padding:10px 16px;
+    border:2px solid var(--paper-line);
+    border-radius:10px;
+    background:var(--card);
+    color:var(--ink-soft);
+    cursor:pointer;
+  }
+  .level-btn.selected{border-color:var(--pen-red); background:var(--pen-red); color:#fff;}
+
+  /* ---- Bottom nav ---- */
+  nav.bottom-nav{
+    position:fixed; left:0; right:0; bottom:0; z-index:40;
+    display:flex; justify-content:space-around;
+    background:var(--card);
+    border-top:2px solid var(--paper-line);
+    box-shadow:0 -6px 18px rgba(35,41,70,.10);
+    padding:8px 8px calc(8px + env(safe-area-inset-bottom));
+  }
+  nav.bottom-nav button{
+    flex:1; max-width:180px;
+    display:flex; flex-direction:column; align-items:center; gap:2px;
+    font-family:'Manrope', sans-serif;
+    font-weight:700;
+    font-size:.72rem;
+    background:transparent;
+    border:none;
+    color:var(--ink-soft);
+    padding:6px 4px;
+    border-radius:10px;
+    cursor:pointer;
+  }
+  nav.bottom-nav button .ic{font-size:1.25rem; line-height:1;}
+  nav.bottom-nav button.active{color:var(--pen-red); background:#f2eddc;}
+  nav.bottom-nav button:focus-visible{outline:3px solid var(--gold); outline-offset:2px;}
+
+  /* ---- Profile ---- */
+  .profile-btn{
+    position:fixed; top:14px; left:14px; z-index:45;
+    display:flex; align-items:center; gap:6px;
+    background:var(--card);
+    border:2px solid var(--ink);
+    border-radius:30px;
+    padding:7px 14px 7px 7px;
+    cursor:pointer;
+    box-shadow:var(--shadow);
+    font-family:'Manrope', sans-serif;
+    font-weight:700;
+    font-size:.8rem;
+    color:var(--ink);
+  }
+  .profile-btn .avatar{
+    width:26px; height:26px; border-radius:50%;
+    background:var(--pen-red); color:#fff;
+    display:flex; align-items:center; justify-content:center;
+    font-family:'Caveat', cursive; font-size:1rem; font-weight:700;
+  }
+
+  /* ---- Reading ---- */
+  .reading-btn{
+    position:fixed; top:14px; right:14px; z-index:45;
+    display:flex; align-items:center; gap:6px;
+    background:var(--card);
+    border:2px solid var(--ink);
+    border-radius:30px;
+    padding:9px 14px 9px 9px;
+    cursor:pointer;
+    box-shadow:var(--shadow);
+    font-family:'Manrope', sans-serif;
+    font-weight:700;
+    font-size:.8rem;
+    color:var(--ink);
+  }
+  .reading-btn .ic{font-size:1.05rem;}
+  .reading-overlay{
+    position:fixed; inset:0; z-index:60;
+    background:rgba(35,41,70,.45);
+    display:flex; align-items:flex-start; justify-content:center;
+    padding:24px 16px;
+    overflow-y:auto;
+    opacity:0; visibility:hidden;
+    transition:opacity .25s ease, visibility .25s ease;
+  }
+  .reading-overlay.show{opacity:1; visibility:visible;}
+  .reading-card{
+    background:var(--card); border-radius:18px; box-shadow:var(--shadow);
+    padding:22px 20px; max-width:480px; width:100%;
+    border:1px solid rgba(35,41,70,.08);
+    margin-top:40px;
+  }
+  .reading-card h3{margin:0 0 14px; font-size:1.6rem;}
+  .reading-list-item{
+    display:flex; justify-content:space-between; align-items:center;
+    padding:13px 4px; border-bottom:1px dashed var(--paper-line);
+    cursor:pointer; font-family:'Manrope', sans-serif;
+  }
+  .reading-list-item:last-child{border-bottom:none;}
+  .reading-list-item .rt-title{font-weight:700; font-size:.92rem; color:var(--ink);}
+  .reading-list-item .rt-level{
+    font-family:'Space Mono', monospace; font-size:.68rem; font-weight:700;
+    color:var(--pen-red); border:1px solid var(--pen-red); border-radius:5px; padding:2px 6px;
+  }
+  .reading-close-btn{
+    display:block; width:100%; text-align:center; margin-top:16px;
+    background:var(--ink); color:var(--paper); font-family:'Manrope', sans-serif;
+    font-weight:700; border-radius:10px; padding:11px; cursor:pointer;
+  }
+  .reading-body-text{
+    font-family:'Manrope', sans-serif; line-height:1.9; font-size:1rem; color:var(--ink);
+    -webkit-user-select:none; -moz-user-select:none; user-select:none;
+    -webkit-touch-callout:none;
+    -webkit-tap-highlight-color:transparent;
+  }
+  .reading-body-text .rw{
+    cursor:pointer; border-radius:4px; padding:0 1px;
+    transition:background .15s ease;
+    -webkit-user-select:none; -moz-user-select:none; user-select:none;
+    -webkit-touch-callout:none;
+    touch-action:none;
+  }
+  .reading-body-text .rw.speaking{background:var(--gold); color:#fff;}
+  .reading-hint{
+    font-family:'Manrope', sans-serif; font-size:.78rem; color:var(--ink-soft);
+    margin-bottom:14px;
+  }
+  .profile-overlay{
+    position:fixed; inset:0; z-index:60;
+    background:rgba(35,41,70,.45);
+    display:flex; align-items:center; justify-content:center;
+    padding:24px;
+    opacity:0; visibility:hidden;
+    transition:opacity .25s ease, visibility .25s ease;
+  }
+  .profile-overlay.show{opacity:1; visibility:visible;}
+  .profile-card{
+    background:var(--card); border-radius:18px; box-shadow:var(--shadow);
+    padding:28px 24px; max-width:340px; width:100%; text-align:center;
+    border:1px solid rgba(35,41,70,.08);
+  }
+  .profile-card .avatar-big{
+    width:64px; height:64px; border-radius:50%; margin:0 auto 14px;
+    background:var(--pen-red); color:#fff;
+    display:flex; align-items:center; justify-content:center;
+    font-family:'Caveat', cursive; font-size:1.8rem; font-weight:700;
+  }
+  .profile-card h3{margin:0 0 4px; font-size:1.7rem; color:var(--ink);}
+  .profile-card .phone{color:var(--ink-soft); font-family:'Space Mono', monospace; font-size:.92rem; margin-bottom:20px;}
+  .profile-card .btn{width:100%; justify-content:center;}
+  .profile-level-label{font-family:'Manrope', sans-serif; font-weight:700; font-size:.82rem; color:var(--ink-soft); margin-bottom:8px;}
+  .profile-card .level-picker{justify-content:center; margin-bottom:18px;}
+
+  h1,h2,h3,.hand{font-family:'Caveat', cursive;}
+
+  header.hero{padding:56px 0 24px; position:relative;}
+  .eyebrow{
+    font-family:'Space Mono', monospace;
+    font-size:.78rem;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:var(--ink-soft);
+    display:inline-block;
+    padding:4px 10px;
+    border:1.5px dashed var(--ink-soft);
+    border-radius:4px;
+    transform:rotate(-2deg);
+  }
+  h1.title{
+    font-size:clamp(2.6rem, 8vw, 4.4rem);
+    line-height:.95;
+    margin:14px 0 6px;
+    color:var(--ink);
+    font-weight:700;
+  }
+  h1.title .accent{color:var(--pen-red);}
+  .subtitle{
+    font-size:1.05rem;
+    color:var(--ink-soft);
+    max-width:52ch;
+    line-height:1.55;
+    margin:0 0 26px;
+  }
+  .cta-row{display:flex; gap:14px; flex-wrap:wrap;}
+  .btn{
+    font-family:'Manrope', sans-serif;
+    font-weight:700;
+    font-size:.98rem;
+    padding:13px 22px;
+    border-radius:10px;
+    border:2px solid var(--ink);
+    background:var(--ink);
+    color:var(--paper);
+    cursor:pointer;
+    text-decoration:none;
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    transition:transform .15s ease, box-shadow .15s ease;
+  }
+  .btn:hover{transform:translateY(-2px); box-shadow:var(--shadow);}
+  .btn:focus-visible{outline:3px solid var(--gold); outline-offset:2px;}
+  .btn.ghost{background:transparent; color:var(--ink);}
+  .btn.small{padding:8px 14px; font-size:.85rem; border-radius:8px;}
+
+  .stat-strip{
+    display:flex; gap:28px; margin-top:34px; flex-wrap:wrap;
+  }
+  .stat-strip .stat{font-family:'Space Mono', monospace;}
+  .stat-strip .num{font-size:1.6rem; font-weight:700; color:var(--pen-red);}
+  .stat-strip .label{font-size:.72rem; color:var(--ink-soft); text-transform:uppercase; letter-spacing:.08em;}
+
+  header.hero{margin-top:38px;}
+
+  section.panel{display:none;}
+  section.panel.active{display:block; animation:fadein .35s ease;}
+  @keyframes fadein{from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:translateY(0);}}
+
+  .panel-head{margin-bottom:18px;}
+  .panel-head h2{font-size:2.1rem; margin:0 0 4px; color:var(--ink);}
+  .panel-head p{color:var(--ink-soft); margin:0; font-size:.96rem;}
+
+  /* ---- Matching game ---- */
+  .match-board{
+    position:relative;
+    background:var(--card);
+    border-radius:16px;
+    box-shadow:var(--shadow);
+    padding:22px;
+    border:1px solid rgba(35,41,70,.08);
+  }
+  .match-cols{display:flex; justify-content:space-between; gap:24px; position:relative;}
+  .match-col{display:flex; flex-direction:column; gap:12px; width:47%;}
+  .match-item{
+    font-family:'Manrope', sans-serif;
+    font-weight:600;
+    font-size:.98rem;
+    background:var(--paper);
+    border:2px solid var(--paper-line);
+    border-radius:10px;
+    padding:13px 14px;
+    cursor:pointer;
+    text-align:left;
+    transition:border-color .15s, transform .1s;
+    position:relative;
+  }
+  .match-item:hover{border-color:var(--ink-soft);}
+  .match-item.selected{border-color:var(--pen-red); background:#fff; transform:scale(1.02);}
+  .match-item.matched{border-color:var(--highlight); background:#f2f6d9; cursor:default; color:var(--ink-soft);}
+  .match-item.wrong{animation:shake .35s;}
+  @keyframes shake{
+    0%,100%{transform:translateX(0);}
+    25%{transform:translateX(-6px);}
+    75%{transform:translateX(6px);}
+  }
+  svg.ink-lines{position:absolute; inset:0; width:100%; height:100%; pointer-events:none;}
+  svg.ink-lines path{
+    fill:none; stroke:var(--pen-red); stroke-width:2.4;
+    stroke-linecap:round;
+    filter:drop-shadow(0 1px 0 rgba(192,57,43,.25));
+  }
+
+  .stamp{
+    position:absolute;
+    top:-10px; right:6px;
+    font-family:'Caveat', cursive;
+    font-weight:700;
+    font-size:1.5rem;
+    color:var(--pen-red);
+    border:3px solid var(--pen-red);
+    border-radius:50%;
+    width:96px; height:96px;
+    display:flex; align-items:center; justify-content:center;
+    text-align:center;
+    transform:rotate(-14deg) scale(0);
+    opacity:0;
+    line-height:1.05;
+    background:rgba(255,253,246,.6);
+  }
+  .stamp.show{
+    animation:stampIn .45s cubic-bezier(.2,1.6,.4,1) forwards;
+  }
+  @keyframes stampIn{
+    0%{transform:rotate(-14deg) scale(0); opacity:0;}
+    60%{transform:rotate(-14deg) scale(1.15); opacity:1;}
+    100%{transform:rotate(-14deg) scale(1); opacity:1;}
+  }
+
+  .board-footer{display:flex; justify-content:space-between; align-items:center; margin-top:20px; flex-wrap:wrap; gap:10px;}
+  .hint{font-family:'Space Mono', monospace; font-size:.78rem; color:var(--ink-soft);}
+
+  /* ---- Scramble game ---- */
+  .scramble-board{
+    background:var(--card);
+    border-radius:16px;
+    box-shadow:var(--shadow);
+    padding:26px 22px;
+    border:1px solid rgba(35,41,70,.08);
+    text-align:center;
+  }
+  .clue{font-size:1.5rem; color:var(--ink); margin-bottom:4px;}
+  .clue .uz{font-family:'Caveat', cursive; font-size:2.1rem; color:var(--pen-red);}
+  .tiles-answer{
+    min-height:52px;
+    display:flex; justify-content:center; gap:8px; flex-wrap:wrap;
+    margin:22px 0 18px;
+    padding-bottom:10px;
+    border-bottom:2px dashed var(--paper-line);
+  }
+  .tiles-bank{display:flex; justify-content:center; gap:10px; flex-wrap:wrap; margin-bottom:22px;}
+  .tile{
+    font-family:'Space Mono', monospace;
+    font-weight:700;
+    font-size:1.15rem;
+    width:44px; height:44px;
+    display:flex; align-items:center; justify-content:center;
+    background:var(--paper);
+    border:2px solid var(--ink);
+    border-radius:8px;
+    cursor:pointer;
+    user-select:none;
+    transition:transform .1s, background .15s;
+  }
+  .tile:hover{transform:translateY(-2px);}
+  .tile.placed{opacity:.25; cursor:default;}
+  .tile.slot{
+    background:transparent;
+    border-style:dashed;
+    border-color:var(--paper-line);
+    color:transparent;
+    cursor:default;
+  }
+  .tile.filled{background:#fff; border-color:var(--pen-red); color:var(--ink); cursor:pointer;}
+  .scramble-actions{display:flex; gap:12px; justify-content:center; flex-wrap:wrap;}
+  .feedback{min-height:28px; margin-top:14px; font-family:'Space Mono', monospace; font-size:.85rem;}
+  .feedback.ok{color:#5c7a12;}
+  .feedback.bad{color:var(--pen-red);}
+
+  /* ---- Word list ---- */
+  .word-search{
+    width:100%;
+    padding:12px 14px;
+    font-family:'Manrope', sans-serif;
+    font-size:.95rem;
+    border:2px solid var(--paper-line);
+    border-radius:10px;
+    background:var(--card);
+    margin-bottom:16px;
+  }
+  .word-search:focus-visible{outline:3px solid var(--gold); outline-offset:1px;}
+  .word-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill, minmax(220px, 1fr));
+    gap:10px;
+  }
+  .word-card{
+    background:var(--card);
+    border:1px solid rgba(35,41,70,.08);
+    border-radius:10px;
+    padding:12px 14px;
+    box-shadow:0 2px 6px rgba(35,41,70,.06);
+  }
+  .word-card .en{font-weight:700; font-size:.98rem;}
+  .word-card .en .lvl-tag{
+    font-family:'Space Mono', monospace; font-weight:700; font-size:.65rem;
+    color:var(--pen-red); border:1px solid var(--pen-red); border-radius:5px;
+    padding:1px 5px; margin-left:4px; vertical-align:middle;
+  }
+  .word-card .uz{color:var(--ink-soft); font-size:.88rem; margin-top:2px;}
+
+  /* ---- Baraban ---- */
+  .wheel-wrap{display:flex; flex-direction:column; align-items:center; gap:26px;}
+  .wheel-outer{position:relative; width:min(320px, 80vw); aspect-ratio:1/1;}
+  .wheel{
+    width:100%; height:100%; border-radius:50%;
+    position:relative; overflow:hidden;
+    border:6px solid var(--ink);
+    box-shadow:var(--shadow);
+    transition:transform 3.5s cubic-bezier(.17,.89,.32,1.1);
+  }
+  .wheel .seg{
+    position:absolute; width:50%; height:50%;
+    top:0; left:50%;
+    transform-origin:0% 100%;
+  }
+  .wheel-pointer{
+    position:absolute; top:-14px; left:50%; transform:translateX(-50%);
+    width:0; height:0;
+    border-left:14px solid transparent;
+    border-right:14px solid transparent;
+    border-top:22px solid var(--pen-red);
+    z-index:5;
+  }
+  .wheel-hub{
+    position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
+    width:56px; height:56px; border-radius:50%;
+    background:var(--card); border:3px solid var(--ink);
+    display:flex; align-items:center; justify-content:center;
+    font-size:1.4rem; z-index:4;
+    cursor:pointer;
+  }
+  .baraban-card{
+    background:var(--card); border-radius:16px; box-shadow:var(--shadow);
+    border:1px solid rgba(35,41,70,.08);
+    padding:24px; text-align:center; width:100%; max-width:520px;
+    min-height:70px;
+  }
+  .baraban-card .sentence{font-family:'Caveat', cursive; font-size:1.7rem; color:var(--ink);}
+  .baraban-card .placeholder{color:var(--ink-soft); font-family:'Manrope', sans-serif; font-size:.92rem;}
+
+  footer{
+    margin-top:60px; padding:28px 0 60px;
+    border-top:2px solid var(--paper-line);
+    color:var(--ink-soft); font-size:.85rem;
+  }
+  footer a{color:var(--pen-red); text-decoration:none; font-weight:700;}
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:0.01ms !important; animation-iteration-count:1 !important; transition-duration:0.01ms !important;}
+  }
+</style>
+</head>
+<body>
+
+<div class="welcome" id="welcome">
+  <span class="eyebrow">@murodillo_essential_bot hamrohi</span>
+  <div class="wave">👋</div>
+  <h1>Assalomu <span class="accent">alaykum!</span></h1>
+  <p>Til daftariga hush kelibsiz — essential inglizcha so'zlarni o'ynab, moslashtirib va harflardan terib o'rganamiz.</p>
+  <div class="welcome-form">
+    <input type="text" id="welcome-name" placeholder="Ism Familiya" autocomplete="name">
+    <input type="tel" id="welcome-phone" placeholder="Telefon raqam" autocomplete="tel">
+  </div>
+  <div class="level-picker" id="level-picker">
+    <button class="level-btn" data-level="A1">A1</button>
+    <button class="level-btn" data-level="A2">A2</button>
+    <button class="level-btn" data-level="B1">B1</button>
+    <button class="level-btn" data-level="B2">B2</button>
+  </div>
+  <div class="welcome-error" id="welcome-error"></div>
+  <button class="btn" onclick="closeWelcome()">Boshlash →</button>
+</div>
+
+<button class="profile-btn" id="profile-btn" onclick="openProfile()">
+  <span class="avatar" id="profile-avatar">?</span>
+  <span id="profile-btn-name">Profil</span>
+</button>
+
+<div class="profile-overlay" id="profile-overlay" onclick="if(event.target===this) closeProfile()">
+  <div class="profile-card">
+    <div class="avatar-big" id="profile-avatar-big">?</div>
+    <h3 id="profile-name">—</h3>
+    <div class="phone" id="profile-phone">—</div>
+    <div class="profile-level-label">Darajangiz:</div>
+    <div class="level-picker" id="profile-level-picker">
+      <button class="level-btn" data-level="A1">A1</button>
+      <button class="level-btn" data-level="A2">A2</button>
+      <button class="level-btn" data-level="B1">B1</button>
+      <button class="level-btn" data-level="B2">B2</button>
+    </div>
+    <button class="btn" onclick="closeProfile()">Yopish</button>
+  </div>
+</div>
+
+<button class="reading-btn" id="reading-btn" onclick="openReadingList()">
+  <span class="ic">📖</span>Reading
+</button>
+
+<div class="reading-overlay" id="reading-list-overlay" onclick="if(event.target===this) closeReadingList()">
+  <div class="reading-card">
+    <h3>Reading matnlar</h3>
+    <div id="reading-list-body"></div>
+    <div class="reading-close-btn" onclick="closeReadingList()">Yopish</div>
+  </div>
+</div>
+
+<div class="reading-overlay" id="reading-view-overlay" onclick="if(event.target===this) closeReadingView()">
+  <div class="reading-card">
+    <h3 id="reading-view-title">—</h3>
+    <div class="reading-hint">So'zni bosib turing (2 soniya) — inglizcha talaffuzini eshitasiz.</div>
+    <div class="reading-body-text" id="reading-view-body"></div>
+    <div class="reading-close-btn" onclick="closeReadingView()">Ro'yxatga qaytish</div>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <header class="hero">
+    <span class="eyebrow">@murodillo_essential_bot hamrohi</span>
+    <h1 class="title">Til <span class="accent">daftari</span></h1>
+    <p class="subtitle">Essential inglizcha so'zlarni o'ynab o'rganing — moslashtiring, harflardan tering, va o'qituvchining qizil ruchkasidek darhol javob oling.</p>
+    <div class="cta-row">
+      <button class="btn" onclick="showPanel('match')">🖇️ Moslashtirish o'yini</button>
+      <button class="btn ghost" onclick="showPanel('scramble')">🔤 Harflardan so'z tuzish</button>
+    </div>
+    <div class="stat-strip">
+      <div class="stat"><div class="num" id="stat-total">0</div><div class="label">jami so'z</div></div>
+      <div class="stat"><div class="num" id="stat-score">0</div><div class="label">bugungi ball</div></div>
+      <div class="stat"><div class="num" id="stat-streak">0</div><div class="label">ketma-ket to'g'ri</div></div>
+    </div>
+  </header>
+
+  <!-- MATCHING PANEL -->
+  <section class="panel active" id="panel-match">
+    <div class="panel-head">
+      <h2>Juftlarni bog'lang</h2>
+      <p>Inglizcha so'zni va uning o'zbekcha tarjimasini ketma-ket bosing. To'g'ri juftlik qizil chiziq bilan bog'lanadi.</p>
+    </div>
+    <div class="match-board">
+      <svg class="ink-lines" id="ink-lines"></svg>
+      <div class="match-cols">
+        <div class="match-col" id="match-col-en"></div>
+        <div class="match-col" id="match-col-uz"></div>
+      </div>
+      <div class="stamp" id="match-stamp">A'lo!</div>
+      <div class="board-footer">
+        <span class="hint" id="match-progress">0 / 6 juftlik</span>
+        <button class="btn small ghost" onclick="newMatchRound()">🔄 Yangi 6 ta so'z</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- SCRAMBLE PANEL -->
+  <section class="panel" id="panel-scramble">
+    <div class="panel-head">
+      <h2>Harflardan so'z tuzing</h2>
+      <p>O'zbekcha ma'noga qarab, aralashtirilgan harflardan inglizcha so'zni yig'ing.</p>
+    </div>
+    <div class="scramble-board">
+      <div class="clue">Bu so'z o'zbekchada: <span class="uz" id="scramble-clue">—</span></div>
+      <div class="tiles-answer" id="scramble-answer"></div>
+      <div class="tiles-bank" id="scramble-bank"></div>
+      <div class="scramble-actions">
+        <button class="btn small" onclick="checkScramble()">✅ Tekshirish</button>
+        <button class="btn small ghost" onclick="resetScrambleTiles()">↺ Tozalash</button>
+        <button class="btn small ghost" onclick="newScrambleRound()">🔄 Keyingi so'z</button>
+      </div>
+      <div class="feedback" id="scramble-feedback"></div>
+    </div>
+  </section>
+
+  <!-- WORD LIST PANEL -->
+  <section class="panel" id="panel-list">
+    <div class="panel-head">
+      <h2>Barcha so'zlar</h2>
+      <p>Botdagi essential so'zlarning to'liq ro'yxati.</p>
+    </div>
+    <input class="word-search" id="word-search" type="text" placeholder="So'z qidirish… (inglizcha yoki o'zbekcha)">
+    <div class="word-grid" id="word-grid"></div>
+  </section>
+
+  <!-- BARABAN PANEL -->
+  <section class="panel" id="panel-baraban">
+    <div class="panel-head">
+      <h2>Gap barabani</h2>
+      <p>G'ildirakni aylantiring — chiqqan gapga o'zingiz shaxsan javob bering (A1 daraja).</p>
+    </div>
+    <div class="wheel-wrap">
+      <div class="wheel-outer">
+        <div class="wheel-pointer"></div>
+        <div class="wheel" id="baraban-wheel"></div>
+        <div class="wheel-hub" id="baraban-spin">🎡</div>
+      </div>
+      <div class="baraban-card">
+        <div class="placeholder" id="baraban-sentence">G'ildirakni aylantirish uchun markazidagi 🎡 belgisini bosing</div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    Bu sayt <a href="https://t.me/murodillo_essential_bot" target="_blank" rel="noopener">@murodillo_essential_bot</a> Telegram botining hamrohi. Har kuni yangi so'zlar uchun botga o'ting.
+  </footer>
+
+</div>
+
+<nav class="bottom-nav">
+  <button data-panel="match" class="active"><span class="ic">🖇️</span>Moslashtirish</button>
+  <button data-panel="scramble"><span class="ic">🔤</span>So'z tuzish</button>
+  <button data-panel="list"><span class="ic">📚</span>So'zlar ro'yxati</button>
+  <button data-panel="baraban"><span class="ic">🎡</span>Baraban</button>
+</nav>
+
+<script>
+/* ---------- Safe storage (never crashes if localStorage is blocked) ---------- */
+function safeGet(key){
+  try { return safeGet(key); } catch(e) { return null; }
+}
+function safeSet(key, value){
+  try { safeSet(key, value); } catch(e) { /* ignore */ }
+}
+
+function initials(name){
+  const parts = name.trim().split(/\s+/).filter(Boolean);
+  return parts.slice(0,2).map(p => p[0].toUpperCase()).join('') || '?';
+}
+
+function renderProfile(name, phone, level){
+  document.getElementById('profile-btn-name').textContent = name.split(' ')[0];
+  document.getElementById('profile-avatar').textContent = initials(name);
+  document.getElementById('profile-avatar-big').textContent = initials(name);
+  document.getElementById('profile-name').textContent = name;
+  document.getElementById('profile-phone').textContent = phone + (level ? '  ·  ' + level : '');
+}
+
+let selectedLevel = null;
+document.querySelectorAll('.level-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.level-btn').forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected');
+    selectedLevel = btn.dataset.level;
+  });
+});
+
+function closeWelcome(){
+  const name = document.getElementById('welcome-name').value.trim();
+  const phone = document.getElementById('welcome-phone').value.trim();
+  const err = document.getElementById('welcome-error');
+  if(!name || !phone){
+    err.textContent = "Iltimos, ism-familiya va telefon raqamni kiriting.";
+    return;
+  }
+  if(!selectedLevel){
+    err.textContent = "Iltimos, darajangizni tanlang (A1 / A2 / B1 / B2).";
+    return;
+  }
+  err.textContent = '';
+  safeSet('tildaftari_name', name);
+  safeSet('tildaftari_phone', phone);
+  safeSet('tildaftari_level', selectedLevel);
+  renderProfile(name, phone, selectedLevel);
+  document.getElementById('welcome').classList.add('hide');
+}
+
+function openProfile(){
+  const current = safeGet('tildaftari_level');
+  document.querySelectorAll('#profile-level-picker .level-btn').forEach(b => {
+    b.classList.toggle('selected', b.dataset.level === current);
+  });
+  document.getElementById('profile-overlay').classList.add('show');
+}
+function closeProfile(){
+  document.getElementById('profile-overlay').classList.remove('show');
+}
+document.querySelectorAll('#profile-level-picker .level-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const newLevel = btn.dataset.level;
+    safeSet('tildaftari_level', newLevel);
+    document.querySelectorAll('#profile-level-picker .level-btn').forEach(b => b.classList.toggle('selected', b === btn));
+    const name = safeGet('tildaftari_name');
+    const phone = safeGet('tildaftari_phone');
+    renderProfile(name, phone, newLevel);
+    if(typeof refreshAfterLevelChange === 'function') refreshAfterLevelChange();
+  });
+});
+
+(function checkSavedProfile(){
+  const name = safeGet('tildaftari_name');
+  const phone = safeGet('tildaftari_phone');
+  const level = safeGet('tildaftari_level');
+  if(name && phone && level){
+    renderProfile(name, phone, level);
+    document.getElementById('welcome').classList.add('hide');
+  }
+})();
+</script>
+<script>
+const WORDS = {"essential": "muhim, zarur", "important": "muhim", "necessary": "kerakli, zarur", "available": "mavjud, bor", "possible": "mumkin bo'lgan", "different": "boshqacha, farqli", "similar": "o'xshash", "example": "misol", "reason": "sabab", "result": "natija", "problem": "muammo", "solution": "yechim", "decision": "qaror", "opportunity": "imkoniyat", "experience": "tajriba", "knowledge": "bilim", "information": "ma'lumot", "purpose": "maqsad", "process": "jarayon", "progress": "taraqqiyot, rivojlanish", "improve": "yaxshilamoq", "increase": "oshirmoq, ko'paytirmoq", "decrease": "kamaytirmoq", "achieve": "erishmoq", "succeed": "muvaffaqiyat qozonmoq", "fail": "muvaffaqiyatsizlikka uchramoq", "understand": "tushunmoq", "explain": "tushuntirmoq", "describe": "tasvirlamoq", "suggest": "taklif qilmoq", "recommend": "tavsiya qilmoq", "require": "talab qilmoq", "provide": "ta'minlamoq", "receive": "qabul qilmoq", "deliver": "yetkazib bermoq", "arrive": "yetib kelmoq", "depart": "jo'nab ketmoq", "schedule": "jadval, rejalashtirmoq", "confirm": "tasdiqlamoq", "cancel": "bekor qilmoq", "delay": "kechikish", "immediately": "darhol", "currently": "hozirda", "recently": "yaqinda", "usually": "odatda", "frequently": "tez-tez", "rarely": "kamdan-kam", "although": "garchi", "however": "biroq, lekin", "therefore": "shuning uchun", "because": "chunki", "despite": "-ga qaramay", "include": "o'z ichiga olmoq", "exclude": "chiqarib tashlamoq", "consider": "hisobga olmoq", "compare": "solishtirmoq", "contain": "tarkibida bo'lmoq", "contact": "aloqa, bog'lanmoq", "communicate": "muloqot qilmoq", "agreement": "kelishuv", "contract": "shartnoma", "customer": "mijoz", "client": "mijoz, buyurtmachi", "supplier": "yetkazib beruvchi", "employee": "xodim", "employer": "ish beruvchi", "colleague": "hamkasb", "manager": "menejer, rahbar", "responsibility": "mas'uliyat", "task": "vazifa", "goal": "maqsad", "strategy": "strategiya", "budget": "byudjet", "cost": "xarajat, narx", "price": "narx", "value": "qiymat", "quality": "sifat", "quantity": "miqdor", "amount": "miqdor, summa", "average": "o'rtacha", "approximately": "taxminan", "estimate": "baholamoq, taxmin qilmoq", "document": "hujjat", "report": "hisobot", "record": "yozuv, qayd qilmoq", "update": "yangilamoq", "review": "ko'rib chiqmoq", "approve": "tasdiqlamoq", "reject": "rad etmoq", "complete": "tugallamoq", "continue": "davom ettirmoq", "prepare": "tayyorlamoq", "organize": "tashkil qilmoq", "manage": "boshqarmoq", "handle": "hal qilmoq, uddalamoq", "solve": "yechmoq", "avoid": "oldini olmoq, qochmoq", "prevent": "oldini olmoq", "ensure": "ta'minlamoq, ishonch hosil qilmoq", "guarantee": "kafolatlamoq", "notice": "e'lon, sezmoq", "warning": "ogohlantirish", "urgent": "shoshilinch", "priority": "ustuvorlik", "deadline": "muddat", "condition": "shart, holat", "environment": "atrof-muhit", "equipment": "jihoz", "device": "qurilma", "system": "tizim", "network": "tarmoq", "connection": "aloqa, ulanish", "access": "kirish, murojaat qilish", "security": "xavfsizlik", "risk": "xavf, tavakkalchilik", "benefit": "foyda", "advantage": "afzallik", "disadvantage": "kamchilik", "challenge": "qiyinchilik, sinov", "effort": "harakat, urinish", "effect": "ta'sir, natija", "impact": "ta'sir", "influence": "ta'sir qilmoq", "situation": "vaziyat", "circumstance": "sharoit", "option": "tanlov, variant", "choice": "tanlov", "advice": "maslahat", "suggestion": "taklif", "instruction": "ko'rsatma", "guideline": "yo'riqnoma", "policy": "siyosat, qoida", "regulation": "qoida, nizom", "rule": "qoida", "law": "qonun", "permission": "ruxsat", "request": "so'rov, so'ramoq", "demand": "talab", "offer": "taklif, taklif qilmoq", "accept": "qabul qilmoq", "refuse": "rad etmoq", "agree": "rozi bo'lmoq", "disagree": "rozi bo'lmaslik", "support": "qo'llab-quvvatlamoq", "assist": "yordam bermoq", "cooperate": "hamkorlik qilmoq", "participate": "ishtirok etmoq", "involve": "jalb qilmoq", "focus": "e'tibor qaratmoq", "attempt": "urinmoq", "perform": "bajarmoq", "operate": "ishlamoq, boshqarmoq", "function": "vazifa, ishlamoq", "produce": "ishlab chiqarmoq", "create": "yaratmoq", "develop": "rivojlantirmoq", "design": "loyihalash", "invest": "sarmoya kiritmoq", "profit": "foyda", "loss": "zarar, yo'qotish", "growth": "o'sish", "expand": "kengaymoq", "reduce": "kamaytirmoq", "maintain": "saqlamoq, davom ettirmoq", "repair": "ta'mirlamoq", "replace": "almashtirmoq", "install": "o'rnatmoq", "remove": "olib tashlamoq", "adjust": "moslamoq, sozlamoq", "measure": "o'lchamoq", "calculate": "hisoblamoq", "analyze": "tahlil qilmoq", "evaluate": "baholamoq", "identify": "aniqlamoq", "define": "ta'riflamoq", "clarify": "aniqlashtirmoq", "emphasize": "urg'u bermoq", "mention": "eslatib o'tmoq", "state": "bayon qilmoq", "claim": "da'vo qilmoq", "assume": "faraz qilmoq", "predict": "bashorat qilmoq", "expect": "kutmoq", "achievement": "yutuq", "acquire": "orttirmoq, sotib olmoq", "adapt": "moslashmoq", "addition": "qo'shimcha", "address": "manzil, murojaat qilmoq", "adequate": "yetarli", "adjustment": "moslashtirish", "administration": "boshqaruv", "advance": "ilgarilamoq", "alternative": "muqobil", "announce": "e'lon qilmoq", "anticipate": "oldindan kutmoq", "apparent": "ravshan, aniq", "applicable": "qo'llaniladigan", "application": "ariza, ilova", "appoint": "tayinlamoq", "appointment": "uchrashuv", "approach": "yondashuv", "arrange": "tartibga solmoq", "arrangement": "kelishuv, tartib", "aspect": "jihat, tomon", "assess": "baholamoq", "assessment": "baholash", "assign": "topshirmoq", "assignment": "topshiriq", "assistance": "yordam", "associate": "hamkorlashmoq", "assurance": "kafolat, ishonch", "attach": "biriktirmoq", "attain": "erishmoq", "attend": "qatnashmoq", "attitude": "munosabat", "attract": "jalb qilmoq", "authority": "vakolat, hokimiyat", "authorize": "ruxsat bermoq", "automatic": "avtomatik", "availability": "mavjudlik", "background": "fon, o'tmish", "balance": "muvozanat", "barrier": "to'siq", "basic": "asosiy", "basis": "asos", "beneficial": "foydali", "brief": "qisqacha", "broad": "keng", "capable": "qodir, layoqatli", "capacity": "sig'im, imkoniyat", "category": "toifa", "caution": "ehtiyotkorlik", "certain": "aniq, ishonchli", "certificate": "guvohnoma", "collaborate": "hamkorlik qilmoq", "collect": "yig'moq", "combine": "birlashtirmoq", "comment": "izoh", "commit": "o'z zimmasiga olmoq", "commitment": "majburiyat", "committee": "qo'mita", "common": "umumiy, oddiy", "community": "jamoa, jamiyat", "compensate": "qoplamoq, tovon to'lamoq", "compensation": "tovon, kompensatsiya", "compete": "raqobatlashmoq", "competent": "malakali", "competition": "raqobat", "complaint": "shikoyat", "comprehensive": "keng qamrovli", "concept": "tushuncha, kontseptsiya", "concern": "tashvish, aloqador bo'lmoq", "conclude": "xulosa chiqarmoq", "conclusion": "xulosa", "conduct": "olib bormoq, xatti-harakat", "conference": "konferensiya", "confidence": "ishonch", "confidential": "maxfiy", "conflict": "ziddiyat", "consequence": "oqibat", "consist": "tashkil topmoq", "consistent": "izchil, barqaror", "constant": "doimiy", "constitute": "tashkil qilmoq", "constraint": "cheklov", "construct": "qurmoq", "consult": "maslahatlashmoq", "consultant": "konsultant", "consumer": "iste'molchi", "content": "mazmun", "context": "kontekst, vaziyat", "contribute": "hissa qo'shmoq", "contribution": "hissa", "controversy": "bahs, tortishuv", "convenient": "qulay", "convention": "an'ana, kelishuv", "convert": "aylantirmoq", "cooperation": "hamkorlik", "coordinate": "muvofiqlashtirmoq", "corporate": "korporativ", "correspond": "mos kelmoq, yozishmoq", "criteria": "mezonlar", "critical": "tanqidiy, muhim", "crucial": "hal qiluvchi, muhim", "culture": "madaniyat", "currency": "valyuta", "database": "ma'lumotlar bazasi", "debate": "munozara", "deal": "bitim, shug'ullanmoq", "debt": "qarz", "default": "kelishilmagan holat, to'lamaslik", "defect": "kamchilik, nuqson", "defend": "himoya qilmoq", "degree": "daraja", "demonstrate": "ko'rsatib bermoq", "deny": "rad etmoq, inkor qilmoq", "depend": "bog'liq bo'lmoq", "deposit": "depozit, garov puli", "derive": "kelib chiqmoq", "detail": "tafsilot", "detect": "aniqlamoq", "determine": "aniqlamoq, hal qilmoq", "devote": "bag'ishlamoq", "diagram": "chizma, sxema", "dimension": "o'lcham", "diminish": "kamaymoq", "discipline": "intizom", "disclose": "oshkor qilmoq", "discount": "chegirma", "discrimination": "kamsitish", "dispute": "nizo, bahs", "distinct": "aniq, o'ziga xos", "distribute": "tarqatmoq", "distribution": "tarqatish", "district": "tuman, hudud", "diverse": "xilma-xil", "domestic": "ichki, mahalliy", "dominant": "ustun, hukmron", "draft": "qoralama", "duration": "davomiylik", "economy": "iqtisodiyot", "edition": "nashr", "efficient": "samarali", "elaborate": "batafsil bayon qilmoq", "element": "unsur, element", "eligible": "huquqli, mos", "eliminate": "yo'q qilmoq", "emerge": "paydo bo'lmoq", "emphasis": "urg'u", "enable": "imkon bermoq", "encounter": "duch kelmoq", "enforce": "amalga oshirmoq, majburlamoq", "enhance": "kuchaytirmoq", "enormous": "ulkan", "enterprise": "korxona", "entire": "butun", "entitle": "huquq bermoq", "equivalent": "tengdosh, teng", "era": "davr", "establish": "tashkil qilmoq, o'rnatmoq", "estate": "mulk", "ethical": "axloqiy", "evident": "aniq, ravshan", "evolve": "rivojlanmoq", "exceed": "oshib ketmoq", "exception": "istisno", "excessive": "haddan tashqari", "exclusive": "eksklyuziv, faqat", "execute": "bajarmoq, amalga oshirmoq", "exhibit": "ko'rgazma, namoyish qilmoq", "exist": "mavjud bo'lmoq", "expenditure": "xarajat", "expertise": "mahorat, tajriba", "expire": "muddati tugamoq", "exploit": "foydalanmoq (ekspluatatsiya)", "export": "eksport qilmoq", "expose": "ochib bermoq, ta'sirlanmoq", "extend": "uzaytirmoq", "external": "tashqi", "extract": "chiqarib olmoq", "facility": "muassasa, qulaylik", "factor": "omil", "fee": "to'lov, haq", "file": "fayl, jild", "finance": "moliya", "finite": "chekli", "flexible": "moslashuvchan", "fluctuate": "tebranmoq, o'zgarib turmoq", "format": "format", "formula": "formula", "forthcoming": "yaqinlashib kelayotgan", "foundation": "asos, jamg'arma", "framework": "asos, tizim", "fund": "mablag'", "fundamental": "asosiy, tub", "generate": "ishlab chiqarmoq, keltirib chiqarmoq", "generation": "avlod", "global": "global", "grant": "grant, bermoq", "hence": "shu sababli", "hierarchy": "ierarxiya", "highlight": "ta'kidlamoq", "hypothesis": "gipoteza", "reasonable": "oqilona, mos", "modern": "zamonaviy", "new": "yangi", "comfortable": "qulay", "game room": "o'yin xonasi", "journey": "sayohat, safar", "abroad": "chet el", "live abroad": "chet elda yashamoq", "study abroad": "chet elda o'qimoq", "hello": "salom", "goodbye": "xayr", "please": "iltimos", "sorry": "kechirasiz", "yes": "ha", "no": "yo'q", "man": "erkak", "woman": "ayol", "boy": "o'g'il bola", "girl": "qiz bola", "child": "bola", "friend": "do'st", "family": "oila", "mother": "ona", "father": "ota", "sister": "opa-singil", "brother": "aka-uka", "son": "o'g'il", "daughter": "qiz", "grandmother": "buvi", "grandfather": "bobo", "house": "uy", "home": "uy, xonadon", "room": "xona", "door": "eshik", "window": "deraza", "table": "stol", "chair": "stul", "bed": "krovat", "kitchen": "oshxona", "school": "maktab", "teacher": "o'qituvchi", "student": "talaba, o'quvchi", "book": "kitob", "pen": "ruchka", "pencil": "qalam", "paper": "qog'oz", "water": "suv", "tea": "choy", "coffee": "kofe", "milk": "sut", "bread": "non", "rice": "guruch", "meat": "go'sht", "fruit": "meva", "apple": "olma", "banana": "banan", "vegetable": "sabzavot", "egg": "tuxum", "breakfast": "nonushta", "lunch": "tushlik", "dinner": "kechki ovqat", "hungry": "och", "thirsty": "chanqagan", "morning": "ertalab", "afternoon": "tushdan keyin", "evening": "kechqurun", "night": "kecha", "today": "bugun", "tomorrow": "ertaga", "yesterday": "kecha (o'tgan kun)", "week": "hafta", "month": "oy", "year": "yil", "monday": "dushanba", "tuesday": "seshanba", "wednesday": "chorshanba", "thursday": "payshanba", "friday": "juma", "saturday": "shanba", "sunday": "yakshanba", "one": "bir", "two": "ikki", "three": "uch", "four": "to'rt", "five": "besh", "six": "olti", "seven": "yetti", "eight": "sakkiz", "nine": "to'qqiz", "ten": "o'n", "hundred": "yuz", "thousand": "ming", "big": "katta", "small": "kichik", "long": "uzun", "short": "qisqa", "tall": "baland", "old": "eski, keksa", "young": "yosh", "good": "yaxshi", "bad": "yomon", "hot": "issiq", "cold": "sovuq", "warm": "iliq", "beautiful": "chiroyli", "clean": "toza", "dirty": "iflos", "happy": "baxtli", "sad": "g'amgin", "tired": "charchagan", "sick": "kasal", "strong": "kuchli", "weak": "kuchsiz", "fast": "tez", "slow": "sekin", "easy": "oson", "difficult": "qiyin"};
+const WORD_LEVELS = {"essential": "B2", "important": "B1", "necessary": "B1", "available": "B2", "possible": "B1", "different": "B1", "similar": "B1", "example": "B1", "reason": "B1", "result": "B1", "problem": "B1", "solution": "B1", "decision": "B1", "opportunity": "B2", "experience": "B1", "knowledge": "B1", "information": "B1", "purpose": "B1", "process": "B1", "progress": "B1", "improve": "B1", "increase": "B1", "decrease": "B1", "achieve": "B1", "succeed": "B1", "fail": "B1", "understand": "B1", "explain": "B1", "describe": "B1", "suggest": "B1", "recommend": "B1", "require": "B1", "provide": "B1", "receive": "B1", "deliver": "B1", "arrive": "B1", "depart": "B1", "schedule": "B1", "confirm": "B1", "cancel": "B1", "delay": "B1", "immediately": "B1", "currently": "B1", "recently": "B1", "usually": "B1", "frequently": "B2", "rarely": "B1", "although": "B1", "however": "B1", "therefore": "B1", "because": "B1", "despite": "B1", "include": "B1", "exclude": "B1", "consider": "B1", "compare": "B1", "contain": "B1", "contact": "B1", "communicate": "B1", "agreement": "B1", "contract": "B2", "customer": "B1", "client": "B1", "supplier": "B2", "employee": "B1", "employer": "B1", "colleague": "B1", "manager": "B1", "responsibility": "B1", "task": "B1", "goal": "B1", "strategy": "B2", "budget": "B1", "cost": "B1", "price": "B1", "value": "B1", "quality": "B1", "quantity": "B1", "amount": "A2", "average": "A2", "approximately": "B2", "estimate": "B2", "document": "B1", "report": "B1", "record": "B1", "update": "B1", "review": "B1", "approve": "B1", "reject": "B1", "complete": "B1", "continue": "B1", "prepare": "B1", "organize": "B1", "manage": "B1", "handle": "B1", "solve": "B1", "avoid": "B1", "prevent": "B1", "ensure": "B1", "guarantee": "B1", "notice": "B1", "warning": "B1", "urgent": "B1", "priority": "B1", "deadline": "B1", "condition": "B1", "environment": "B1", "equipment": "B1", "device": "B1", "system": "B1", "network": "B1", "connection": "B1", "access": "B1", "security": "B1", "risk": "B1", "benefit": "B1", "advantage": "B1", "disadvantage": "B1", "challenge": "B1", "effort": "B1", "effect": "B1", "impact": "B1", "influence": "B1", "situation": "B1", "circumstance": "B2", "option": "B1", "choice": "B1", "advice": "B1", "suggestion": "B1", "instruction": "B1", "guideline": "B1", "policy": "B1", "regulation": "B1", "rule": "B1", "law": "B1", "permission": "B1", "request": "B1", "demand": "B1", "offer": "B1", "accept": "B1", "refuse": "B1", "agree": "B1", "disagree": "B1", "support": "B1", "assist": "B1", "cooperate": "B1", "participate": "B1", "involve": "B1", "focus": "B1", "attempt": "B1", "perform": "B1", "operate": "B1", "function": "B1", "produce": "B1", "create": "B1", "develop": "B1", "design": "B1", "invest": "B1", "profit": "B1", "loss": "B1", "growth": "B1", "expand": "B1", "reduce": "B1", "maintain": "B1", "repair": "B1", "replace": "B1", "install": "B1", "remove": "B1", "adjust": "B1", "measure": "B1", "calculate": "B1", "analyze": "B1", "evaluate": "B1", "identify": "B1", "define": "B1", "clarify": "B1", "emphasize": "B1", "mention": "B1", "state": "B1", "claim": "B1", "assume": "B1", "predict": "B1", "expect": "B1", "achievement": "B1", "acquire": "B1", "adapt": "B1", "addition": "B1", "address": "B1", "adequate": "B1", "adjustment": "B2", "administration": "B2", "advance": "A2", "alternative": "B2", "announce": "B2", "anticipate": "B2", "apparent": "B2", "applicable": "B2", "application": "B2", "appoint": "A2", "appointment": "B2", "approach": "B2", "arrange": "A2", "arrangement": "B2", "aspect": "A2", "assess": "A2", "assessment": "B2", "assign": "A2", "assignment": "B2", "assistance": "B2", "associate": "B2", "assurance": "B2", "attach": "A2", "attain": "A2", "attend": "A2", "attitude": "B2", "attract": "A2", "authority": "B2", "authorize": "B2", "automatic": "B2", "availability": "B2", "background": "B2", "balance": "A2", "barrier": "A2", "basic": "A2", "basis": "A2", "beneficial": "B2", "brief": "A2", "broad": "A2", "capable": "A2", "capacity": "B2", "category": "B2", "caution": "A2", "certain": "A2", "certificate": "B2", "collaborate": "B2", "collect": "A2", "combine": "A2", "comment": "A2", "commit": "A2", "commitment": "B2", "committee": "B2", "common": "A2", "community": "B2", "compensate": "B2", "compensation": "B2", "compete": "A2", "competent": "B2", "competition": "B2", "complaint": "B2", "comprehensive": "B2", "concept": "A2", "concern": "A2", "conclude": "B2", "conclusion": "B2", "conduct": "A2", "conference": "B2", "confidence": "B2", "confidential": "B2", "conflict": "B2", "consequence": "B2", "consist": "A2", "consistent": "B2", "constant": "B2", "constitute": "B2", "constraint": "B2", "construct": "B2", "consult": "A2", "consultant": "B2", "consumer": "B2", "content": "A2", "context": "A2", "contribute": "B2", "contribution": "B2", "controversy": "B2", "convenient": "B2", "convention": "B2", "convert": "A2", "cooperation": "B2", "coordinate": "B2", "corporate": "B2", "correspond": "B2", "criteria": "B2", "critical": "B2", "crucial": "A2", "culture": "A2", "currency": "B2", "database": "B2", "debate": "A2", "deal": "A2", "debt": "A2", "default": "A2", "defect": "A2", "defend": "A2", "degree": "A2", "demonstrate": "B2", "deny": "A2", "depend": "A2", "deposit": "A2", "derive": "A2", "detail": "A2", "detect": "A2", "determine": "B2", "devote": "A2", "diagram": "A2", "dimension": "B2", "diminish": "B2", "discipline": "B2", "disclose": "B2", "discount": "B2", "discrimination": "B2", "dispute": "A2", "distinct": "B2", "distribute": "B2", "distribution": "B2", "district": "B2", "diverse": "A2", "domestic": "B2", "dominant": "B2", "draft": "A2", "duration": "B2", "economy": "A2", "edition": "A2", "efficient": "B2", "elaborate": "B2", "element": "A2", "eligible": "B2", "eliminate": "B2", "emerge": "A2", "emphasis": "B2", "enable": "A2", "encounter": "B2", "enforce": "A2", "enhance": "A2", "enormous": "B2", "enterprise": "B2", "entire": "A2", "entitle": "A2", "equivalent": "B2", "era": "A2", "establish": "B2", "estate": "A2", "ethical": "A2", "evident": "A2", "evolve": "A2", "exceed": "A2", "exception": "B2", "excessive": "B2", "exclusive": "B2", "execute": "A2", "exhibit": "A2", "exist": "A2", "expenditure": "B2", "expertise": "B2", "expire": "A2", "exploit": "A2", "export": "A2", "expose": "A2", "extend": "A2", "external": "B2", "extract": "A2", "facility": "B2", "factor": "A2", "fee": "A2", "file": "A2", "finance": "A2", "finite": "A2", "flexible": "B2", "fluctuate": "B2", "format": "A2", "formula": "A2", "forthcoming": "B2", "foundation": "B2", "framework": "B2", "fund": "A2", "fundamental": "B2", "generate": "B2", "generation": "B2", "global": "A2", "grant": "A2", "hence": "A2", "hierarchy": "B2", "highlight": "B2", "hypothesis": "B2", "reasonable": "B2", "modern": "B1", "new": "B1", "comfortable": "B1", "game room": "B2", "journey": "B1", "abroad": "B1", "live abroad": "B2", "study abroad": "B2", "hello": "A1", "goodbye": "A1", "please": "A1", "sorry": "A1", "yes": "A1", "no": "A1", "man": "A1", "woman": "A1", "boy": "A1", "girl": "A1", "child": "A1", "friend": "A1", "family": "A1", "mother": "A1", "father": "A1", "sister": "A1", "brother": "A1", "son": "A1", "daughter": "A1", "grandmother": "A1", "grandfather": "A1", "house": "A1", "home": "A1", "room": "A1", "door": "A1", "window": "A1", "table": "A1", "chair": "A1", "bed": "A1", "kitchen": "A1", "school": "A1", "teacher": "A1", "student": "A1", "book": "A1", "pen": "A1", "pencil": "A1", "paper": "A1", "water": "A1", "tea": "A1", "coffee": "A1", "milk": "A1", "bread": "A1", "rice": "A1", "meat": "A1", "fruit": "A1", "apple": "A1", "banana": "A1", "vegetable": "A1", "egg": "A1", "breakfast": "A1", "lunch": "A1", "dinner": "A1", "hungry": "A1", "thirsty": "A1", "morning": "A1", "afternoon": "A1", "evening": "A1", "night": "A1", "today": "A1", "tomorrow": "A1", "yesterday": "A1", "week": "A1", "month": "A1", "year": "A1", "monday": "A1", "tuesday": "A1", "wednesday": "A1", "thursday": "A1", "friday": "A1", "saturday": "A1", "sunday": "A1", "one": "A1", "two": "A1", "three": "A1", "four": "A1", "five": "A1", "six": "A1", "seven": "A1", "eight": "A1", "nine": "A1", "ten": "A1", "hundred": "A1", "thousand": "A1", "big": "A1", "small": "A1", "long": "A1", "short": "A1", "tall": "A1", "old": "A1", "young": "A1", "good": "A1", "bad": "A1", "hot": "A1", "cold": "A1", "warm": "A1", "beautiful": "A1", "clean": "A1", "dirty": "A1", "happy": "A1", "sad": "A1", "tired": "A1", "sick": "A1", "strong": "A1", "weak": "A1", "fast": "A1", "slow": "A1", "easy": "A1", "difficult": "A1"};
+const READINGS = [
+  {
+    "title": "My Name Is Alisher",
+    "level": "A1",
+    "body": "Hello. My name is Alisher. I am twenty years old. I live in Tashkent with my family. I have a mother, a father, and one sister. My father is a driver. My mother is a teacher. I am a student. I like coffee in the morning and tea in the evening."
+  },
+  {
+    "title": "My Day",
+    "level": "A1",
+    "body": "I wake up at seven o'clock. First, I wash my face. Then I eat breakfast. I usually eat bread and eggs. After breakfast, I go to work by bus. My work starts at nine. I work until six in the evening. Then I go home and have dinner with my family."
+  },
+  {
+    "title": "My House",
+    "level": "A1",
+    "body": "This is my house. It is small but comfortable. There are three rooms: a bedroom, a kitchen, and a living room. My favorite room is the kitchen because my mother cooks delicious food there. There is a big window in the living room. I like to sit near the window and read a book."
+  },
+  {
+    "title": "The Weather Today",
+    "level": "A1",
+    "body": "Today the weather is cold. It is winter in Tashkent. The sky is grey and it is snowing a little. I am wearing a warm jacket and a hat. In summer, the weather is very hot. I like spring the most because it is not too hot and not too cold."
+  },
+  {
+    "title": "At the Market",
+    "level": "A1",
+    "body": "I go to the market every Sunday. I buy fruit and vegetables there. Apples and bananas are my favorite fruit. The market is near my house. I walk there in ten minutes. The prices are cheap. I always take a bag with me because plastic bags are not good for nature."
+  },
+  {
+    "title": "My Best Friend",
+    "level": "A1",
+    "body": "My best friend is Jasur. We study together at school. He is tall and friendly. Jasur likes football very much. On Saturdays, we play football in the park. After the game, we drink tea and talk about our week. He is a very good friend."
+  },
+  {
+    "title": "A Simple Recipe",
+    "level": "A1",
+    "body": "Today I want to cook rice. First, I wash the rice with water. Then I cut some carrots and onions. I put oil in a pan and cook the vegetables. After that, I add the rice and water. I cook it for thirty minutes. It smells very good."
+  },
+  {
+    "title": "My Phone",
+    "level": "A1",
+    "body": "I have a new phone. It is black and not very big. I use my phone to call my family and friends. I also use it to listen to music and read the news. My phone battery is good; it works all day. I keep my phone in my pocket."
+  },
+  {
+    "title": "A Trip to the City Center",
+    "level": "A2",
+    "body": "Last weekend, I went to the city center with my sister. We took a bus because it was faster than walking. First, we visited a bookshop and bought two books. Then we had lunch at a small café near the square. After lunch, we walked around and looked at the old buildings. It was a wonderful day, and we decided to go there again next month."
+  },
+  {
+    "title": "Starting a New Job",
+    "level": "A2",
+    "body": "Two weeks ago, I started a new job at a logistics company. On my first day, I was a little nervous, but my colleagues were very friendly. My manager explained my tasks clearly, so I understood everything quickly. Now I check delivery schedules and print receipts every morning. I am learning something new every day, and I really enjoy my work."
+  },
+  {
+    "title": "Planning a Journey",
+    "level": "A2",
+    "body": "Next month, my family and I are planning a journey to another city. We will travel by train because it is comfortable and not expensive. My mother wants to visit her old friend there, and my father wants to see the historical places. I am excited because I have never been to that city before."
+  },
+  {
+    "title": "A Rainy Afternoon",
+    "level": "A2",
+    "body": "It started raining suddenly in the afternoon, so I decided to stay at home instead of going out. I made a cup of tea and sat near the window, watching the rain. My phone rang, and it was my friend inviting me to a café, but I told him I would rather stay home today. I spent the rest of the afternoon reading a book."
+  },
+  {
+    "title": "Learning a Language",
+    "level": "A2",
+    "body": "Learning a new language is not always easy, but it is very useful. I usually study English for one hour every evening. Sometimes I watch short videos, and sometimes I write new words in my notebook. At first, it was difficult to understand fast speech, but now I understand much more than before. Practice really does make progress."
+  },
+  {
+    "title": "A Busy Morning at Work",
+    "level": "A2",
+    "body": "This morning was very busy at the office. Many customers called with questions about their orders, and I had to answer each one carefully. The printer stopped working for a while, so we had to fix it before continuing. By lunchtime, everything was organized again, and the rest of the day went smoothly. I felt tired but satisfied with my work."
+  },
+  {
+    "title": "Shopping for the Holidays",
+    "level": "A2",
+    "body": "Before the holidays, my family usually goes shopping together. We buy new clothes, some food, and small gifts for our relatives. The shops are always crowded during this time, so we try to go early in the morning. Although it can be tiring, we enjoy choosing presents and imagining how happy everyone will be when they open them."
+  },
+  {
+    "title": "How Deliveries Work",
+    "level": "B1",
+    "body": "When a customer places an order, the information is immediately sent to the warehouse. There, workers prepare the package and attach a label with the delivery address. A driver then collects several packages and plans the fastest route to deliver them. Sometimes there are delays because of traffic or bad weather, so companies try to inform customers about any changes as soon as possible."
+  },
+  {
+    "title": "Why Communication Matters at Work",
+    "level": "B1",
+    "body": "Good communication is essential in any workplace. When employees explain their ideas clearly, misunderstandings become less common, and tasks are completed more efficiently. On the other hand, poor communication can lead to mistakes, missed deadlines, and frustration among colleagues. That is why many companies organize regular meetings, where everyone can share updates, ask questions, and solve problems together before they become serious."
+  },
+  {
+    "title": "The Benefits of Learning English",
+    "level": "B1",
+    "body": "English has become an international language used in business, technology, and travel. People who speak English confidently often find it easier to communicate with colleagues from other countries and to understand instructions for new software or equipment. Although learning a language requires patience and regular practice, the effort is usually worth it, since it opens many opportunities that would otherwise remain closed."
+  },
+  {
+    "title": "Balancing Work and Rest",
+    "level": "B1",
+    "body": "Many people find it difficult to balance their work responsibilities with enough time for rest. Working long hours without breaks can reduce concentration and increase the risk of mistakes. Experts recommend taking short breaks throughout the day and setting clear boundaries between work and personal time. Although it is not always easy, maintaining this balance usually leads to better results and a healthier lifestyle overall."
+  },
+  {
+    "title": "Solving a Problem at the Office",
+    "level": "B1",
+    "body": "Yesterday, the printer at our office suddenly stopped working, and several important documents needed to be ready before the meeting. Instead of panicking, our team quickly discussed possible solutions. One colleague suggested using a printer from the nearby department, while another contacted a technician to repair the machine. In the end, we managed to complete the task on time, and we learned that staying calm helps solve problems faster."
+  },
+  {
+    "title": "Choosing the Right Career",
+    "level": "B1",
+    "body": "Choosing a career path can be a challenging decision, especially for young people who are still discovering their interests and strengths. Some people decide quickly, while others need more time and experience before finding the right direction. It is often helpful to try different types of work, ask experienced professionals for advice, and consider what kind of lifestyle a particular career would offer before making a final decision."
+  },
+  {
+    "title": "Adapting to a New City",
+    "level": "B1",
+    "body": "Moving to a new city can be exciting, but it also brings certain challenges. At first, everything feels unfamiliar: the streets, the shops, and even the way people communicate. However, after spending some time exploring the neighborhood and meeting new people, most individuals begin to feel more comfortable. Joining local activities or finding a favorite café can make the transition smoother and help someone feel at home faster."
+  },
+  {
+    "title": "The Importance of Customer Service",
+    "level": "B2",
+    "body": "In competitive markets, exceptional customer service can distinguish one company from another, even when their products are similar. Customers tend to remain loyal to businesses that respond quickly, resolve issues professionally, and treat every complaint as an opportunity for improvement rather than an inconvenience. Companies that invest in training their staff to communicate effectively often notice a measurable increase in customer satisfaction and repeat business over time."
+  },
+  {
+    "title": "Managing Time Effectively",
+    "level": "B2",
+    "body": "Effective time management requires more than simply making a list of tasks; it involves prioritizing responsibilities according to their urgency and importance. Professionals who consistently meet deadlines often break large projects into smaller, manageable steps and allocate specific time blocks for each one. Furthermore, minimizing distractions, such as unnecessary notifications, allows individuals to maintain focus and complete tasks with greater accuracy and less stress."
+  },
+  {
+    "title": "The Impact of Technology on Logistics",
+    "level": "B2",
+    "body": "Modern technology has significantly transformed the logistics industry, making it possible to track shipments in real time and predict potential delays before they occur. Automated systems now handle tasks that once required considerable manual effort, such as sorting packages and calculating optimal delivery routes. Although these advancements have improved efficiency, they also require employees to continuously update their skills in order to work effectively alongside new tools and software."
+  },
+  {
+    "title": "Building Trust with Clients",
+    "level": "B2",
+    "body": "Establishing trust with clients is a gradual process that depends on consistency, transparency, and reliability. When a company fulfills its promises and communicates honestly about potential problems, clients are more likely to remain loyal, even during difficult situations. Conversely, a single instance of dishonesty or poor service can damage a relationship that took years to build, which is why many organizations emphasize integrity as a core value."
+  },
+  {
+    "title": "The Value of Continuous Learning",
+    "level": "B2",
+    "body": "In today's rapidly changing work environment, continuous learning has become essential rather than optional. Employees who regularly update their knowledge and skills are better prepared to adapt to new technologies, market demands, and organizational changes. While formal education provides a foundation, much of this ongoing development happens through practical experience, self-study, and constructive feedback from colleagues and supervisors, all of which contribute to long-term professional growth."
+  },
+  {
+    "title": "Understanding Supply and Demand",
+    "level": "B2",
+    "body": "The relationship between supply and demand influences prices across almost every industry, including transportation and delivery services. When demand for a service increases faster than the available resources, prices tend to rise, and companies must decide whether to expand their capacity or maintain current operations. Understanding these economic principles allows business owners to make informed decisions about staffing, pricing, and investment, particularly during periods of rapid growth or unexpected disruption."
+  },
+  {
+    "title": "Negotiating a Business Agreement",
+    "level": "B2",
+    "body": "Successful negotiations require careful preparation, active listening, and a clear understanding of both parties' priorities. Rather than focusing solely on immediate gains, experienced negotiators often consider the long-term relationship between the companies involved, since a fair agreement is more likely to lead to future cooperation. Patience and flexibility are equally important, as rigid positions can sometimes prevent both sides from reaching a solution that genuinely benefits everyone."
+  },
+  {
+    "title": "The Role of Feedback in Improvement",
+    "level": "B2",
+    "body": "Constructive feedback plays a crucial role in personal and professional development, as it highlights areas that require attention while also recognizing genuine progress. Individuals who actively seek feedback, rather than avoiding it, tend to improve their skills more quickly, since they gain insight into aspects of their work that might otherwise go unnoticed. However, feedback is most effective when it is specific, respectful, and delivered in a way that encourages further growth."
+  }
+];
+const ENTRIES = Object.entries(WORDS).filter(([w]) => /^[a-zA-Z ]+$/.test(w) && w.length <= 12);
+
+const LEVEL_RANK = {A1:1, A2:2, B1:3, B2:4};
+function getCurrentLevelRank(){
+  const lvl = safeGet('tildaftari_level') || 'B2';
+  return LEVEL_RANK[lvl] || 4;
+}
+function entriesForLevel(){
+  const maxRank = getCurrentLevelRank();
+  return ENTRIES.filter(([w]) => LEVEL_RANK[WORD_LEVELS[w]] <= maxRank);
+}
+
+let score = 0, streak = 0;
+function bump(ok){
+  if(ok){ score++; streak++; } else { streak = 0; }
+  document.getElementById('stat-score').textContent = score;
+  document.getElementById('stat-streak').textContent = streak;
+}
+document.getElementById('stat-total').textContent = entriesForLevel().length;
+
+/* ---------- Tabs ---------- */
+function showPanel(name){
+  document.querySelectorAll('nav.bottom-nav button').forEach(b => b.classList.toggle('active', b.dataset.panel === name));
+  document.querySelectorAll('section.panel').forEach(p => p.classList.toggle('active', p.id === 'panel-' + name));
+  if(name === 'match' && !matchInit){ newMatchRound(); matchInit = true; }
+  if(name === 'scramble' && !scrambleInit){ newScrambleRound(); scrambleInit = true; }
+  if(name === 'list' && !listInit){ renderWordList(); listInit = true; }
+}
+document.querySelectorAll('nav.bottom-nav button').forEach(b => b.addEventListener('click', () => showPanel(b.dataset.panel)));
+
+/* ---------- Matching game ---------- */
+let matchInit = false;
+let matchPairs = [];
+let matchSelectedEn = null, matchSelectedUz = null;
+let matchedCount = 0;
+
+function shuffle(arr){
+  const a = [...arr];
+  for(let i = a.length - 1; i > 0; i--){
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function newMatchRound(){
+  const picked = shuffle(entriesForLevel()).slice(0, 6);
+  matchPairs = picked;
+  matchedCount = 0;
+  matchSelectedEn = null; matchSelectedUz = null;
+
+  const colEn = document.getElementById('match-col-en');
+  const colUz = document.getElementById('match-col-uz');
+  colEn.innerHTML = ''; colUz.innerHTML = '';
+  document.getElementById('ink-lines').innerHTML = '';
+  document.getElementById('match-stamp').className = 'stamp';
+  document.getElementById('match-progress').textContent = '0 / ' + picked.length + ' juftlik';
+
+  const enShuffled = shuffle(picked);
+  const uzShuffled = shuffle(picked);
+
+  enShuffled.forEach(([en]) => {
+    const btn = document.createElement('button');
+    btn.className = 'match-item';
+    btn.textContent = en;
+    btn.dataset.key = en;
+    btn.addEventListener('click', () => selectMatch('en', en, btn));
+    colEn.appendChild(btn);
+  });
+  uzShuffled.forEach(([en, uz]) => {
+    const btn = document.createElement('button');
+    btn.className = 'match-item';
+    btn.textContent = uz;
+    btn.dataset.key = en;
+    btn.addEventListener('click', () => selectMatch('uz', en, btn));
+    colUz.appendChild(btn);
+  });
+}
+
+function selectMatch(side, key, el){
+  if(el.classList.contains('matched')) return;
+  if(side === 'en'){
+    if(matchSelectedEn) matchSelectedEn.el.classList.remove('selected');
+    matchSelectedEn = { key, el };
+    el.classList.add('selected');
+  } else {
+    if(matchSelectedUz) matchSelectedUz.el.classList.remove('selected');
+    matchSelectedUz = { key, el };
+    el.classList.add('selected');
+  }
+  if(matchSelectedEn && matchSelectedUz){
+    if(matchSelectedEn.key === matchSelectedUz.key){
+      matchSelectedEn.el.classList.remove('selected');
+      matchSelectedUz.el.classList.remove('selected');
+      matchSelectedEn.el.classList.add('matched');
+      matchSelectedUz.el.classList.add('matched');
+      drawInkLine(matchSelectedEn.el, matchSelectedUz.el);
+      matchedCount++;
+      bump(true);
+      document.getElementById('match-progress').textContent = matchedCount + ' / ' + matchPairs.length + ' juftlik';
+      if(matchedCount === matchPairs.length){
+        const stamp = document.getElementById('match-stamp');
+        stamp.classList.add('show');
+      }
+    } else {
+      matchSelectedEn.el.classList.add('wrong');
+      matchSelectedUz.el.classList.add('wrong');
+      bump(false);
+      setTimeout(() => {
+        matchSelectedEn.el.classList.remove('selected', 'wrong');
+        matchSelectedUz.el.classList.remove('selected', 'wrong');
+      }, 380);
+    }
+    matchSelectedEn = null; matchSelectedUz = null;
+  }
+}
+
+function drawInkLine(elA, elB){
+  const svg = document.getElementById('ink-lines');
+  const board = svg.parentElement.getBoundingClientRect();
+  const a = elA.getBoundingClientRect();
+  const b = elB.getBoundingClientRect();
+  const x1 = a.right - board.left, y1 = a.top + a.height/2 - board.top;
+  const x2 = b.left - board.left, y2 = b.top + b.height/2 - board.top;
+  const midX = (x1 + x2) / 2;
+  const wobble = (Math.random() - 0.5) * 14;
+  const d = `M ${x1} ${y1} Q ${midX} ${(y1+y2)/2 + wobble} ${x2} ${y2}`;
+  const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+  path.setAttribute('d', d);
+  svg.appendChild(path);
+}
+
+/* ---------- Scramble game ---------- */
+let scrambleInit = false;
+let scrambleWord = '', scrambleClueUz = '';
+let scrambleSlots = [], scrambleTiles = [];
+
+function newScrambleRound(){
+  const pool = entriesForLevel().filter(([w]) => w.length >= 4 && w.length <= 9 && !w.includes(' '));
+  const [word, uz] = pool[Math.floor(Math.random() * pool.length)];
+  scrambleWord = word.toLowerCase();
+  scrambleClueUz = uz;
+  document.getElementById('scramble-clue').textContent = uz;
+  document.getElementById('scramble-feedback').textContent = '';
+  document.getElementById('scramble-feedback').className = 'feedback';
+
+  scrambleSlots = new Array(scrambleWord.length).fill(null);
+  const letters = shuffle(scrambleWord.split(''));
+  scrambleTiles = letters.map((ch, i) => ({ ch, id: i, used: false }));
+
+  renderScramble();
+}
+
+function renderScramble(){
+  const answerEl = document.getElementById('scramble-answer');
+  const bankEl = document.getElementById('scramble-bank');
+  answerEl.innerHTML = '';
+  bankEl.innerHTML = '';
+
+  scrambleSlots.forEach((filledId, idx) => {
+    const slot = document.createElement('div');
+    if(filledId === null){
+      slot.className = 'tile slot';
+      slot.textContent = '_';
+    } else {
+      const tile = scrambleTiles.find(t => t.id === filledId);
+      slot.className = 'tile filled';
+      slot.textContent = tile.ch;
+      slot.addEventListener('click', () => {
+        scrambleSlots[idx] = null;
+        tile.used = false;
+        renderScramble();
+      });
+    }
+    answerEl.appendChild(slot);
+  });
+
+  scrambleTiles.forEach(tile => {
+    const el = document.createElement('div');
+    el.className = 'tile' + (tile.used ? ' placed' : '');
+    el.textContent = tile.ch;
+    if(!tile.used){
+      el.addEventListener('click', () => {
+        const emptyIdx = scrambleSlots.indexOf(null);
+        if(emptyIdx === -1) return;
+        scrambleSlots[emptyIdx] = tile.id;
+        tile.used = true;
+        renderScramble();
+      });
+    }
+    bankEl.appendChild(el);
+  });
+}
+
+function resetScrambleTiles(){
+  scrambleSlots = new Array(scrambleWord.length).fill(null);
+  scrambleTiles.forEach(t => t.used = false);
+  renderScramble();
+}
+
+function checkScramble(){
+  if(scrambleSlots.includes(null)){
+    const fb = document.getElementById('scramble-feedback');
+    fb.textContent = 'Avval barcha harflarni joylashtiring.';
+    fb.className = 'feedback bad';
+    return;
+  }
+  const built = scrambleSlots.map(id => scrambleTiles.find(t => t.id === id).ch).join('');
+  const fb = document.getElementById('scramble-feedback');
+  if(built === scrambleWord){
+    fb.textContent = "✅ A'lo! To'g'ri javob: " + scrambleWord;
+    fb.className = 'feedback ok';
+    bump(true);
+    setTimeout(newScrambleRound, 900);
+  } else {
+    fb.textContent = '❌ Hato. Yana urinib ko\'ring.';
+    fb.className = 'feedback bad';
+    bump(false);
+  }
+}
+
+/* ---------- Word list ---------- */
+let listInit = false;
+function renderWordList(filter){
+  const grid = document.getElementById('word-grid');
+  grid.innerHTML = '';
+  const q = (filter || '').trim().toLowerCase();
+  const maxRank = getCurrentLevelRank();
+  Object.entries(WORDS).forEach(([en, uz]) => {
+    if(LEVEL_RANK[WORD_LEVELS[en]] > maxRank) return;
+    if(q && !en.toLowerCase().includes(q) && !uz.toLowerCase().includes(q)) return;
+    const card = document.createElement('div');
+    card.className = 'word-card';
+    card.innerHTML = `<div class="en">${en} <span class="lvl-tag">${WORD_LEVELS[en]}</span></div><div class="uz">${uz}</div>`;
+    grid.appendChild(card);
+  });
+}
+document.getElementById('word-search').addEventListener('input', e => renderWordList(e.target.value));
+
+/* ---------- Baraban ---------- */
+const BARABAN_SENTENCES = [
+  "What is your name?",
+  "Where are you from?",
+  "How old are you?",
+  "Where do you live?",
+  "What is your job?",
+  "Do you have brothers or sisters?",
+  "What does your mother do?",
+  "What does your father do?",
+  "Do you like coffee?",
+  "Do you like cold weather?",
+  "What time is it now?",
+  "What time do you wake up?",
+  "How do you go to work?",
+  "What do you eat for breakfast?",
+  "Do you study English every day?",
+  "Who is your best friend?",
+  "Where does he work?",
+  "Do you live in a big city?",
+  "Do you have a pet?",
+  "Can you speak two languages?",
+  "Can you drive a car?",
+  "Can you help me, please?",
+  "Do you need some water?",
+  "Do you want to learn English?",
+  "Do you have a pen?",
+  "Is this your bag?",
+  "Is there a book on the table?",
+  "Are there chairs in this room?",
+  "Where is your phone?",
+  "Are you happy today?",
+  "Are you tired now?",
+  "How is the weather today?",
+  "Is it hot outside?",
+  "What do you usually do at night?",
+  "Do you cook dinner sometimes?",
+  "What do you do on Sundays?",
+  "What time do you go to bed?",
+  "What is your favorite color?",
+  "What is your favorite food?",
+  "Would you like some tea?",
+  "How much is this?",
+  "Is this shirt cheap or expensive?",
+  "Do you need to buy some bread?",
+  "Is the shop near your house?",
+  "Do you walk to school or work?",
+  "When is your birthday?",
+  "What is your favorite season?",
+  "Do you like reading books?",
+  "How many languages do you know?",
+  "What did you do yesterday?"
+];
+let barabanUsed = [];
+const WHEEL_COLORS = ["#c0392b","#c8961e","#4b5170","#5c7a12","#8a4fc0","#1e7a8c","#c85f1e","#232946"];
+
+function buildWheelSegments(){
+  const wheel = document.getElementById('baraban-wheel');
+  wheel.innerHTML = '';
+  const n = WHEEL_COLORS.length;
+  const anglePer = 360 / n;
+  for(let i = 0; i < n; i++){
+    const seg = document.createElement('div');
+    seg.className = 'seg';
+    const rot = anglePer * i;
+    seg.style.transform = `rotate(${rot}deg) skewY(${anglePer - 90}deg)`;
+    seg.style.background = WHEEL_COLORS[i];
+    wheel.appendChild(seg);
+  }
+}
+buildWheelSegments();
+
+let barabanRotation = 0;
+let barabanSpinning = false;
+
+function pickSentence(){
+  if(barabanUsed.length >= BARABAN_SENTENCES.length) barabanUsed = [];
+  let idx;
+  do{
+    idx = Math.floor(Math.random() * BARABAN_SENTENCES.length);
+  } while(barabanUsed.includes(idx));
+  barabanUsed.push(idx);
+  return BARABAN_SENTENCES[idx];
+}
+
+function spinBaraban(){
+  if(barabanSpinning) return;
+  barabanSpinning = true;
+  const wheel = document.getElementById('baraban-wheel');
+  const extraTurns = 4 + Math.floor(Math.random() * 3);
+  const randomOffset = Math.random() * 360;
+  barabanRotation += extraTurns * 360 + randomOffset;
+  wheel.style.transform = `rotate(${barabanRotation}deg)`;
+
+  const sentenceEl = document.getElementById('baraban-sentence');
+  sentenceEl.className = 'placeholder';
+  sentenceEl.textContent = 'Aylanyapti...';
+
+  setTimeout(() => {
+    const sentence = pickSentence();
+    sentenceEl.className = 'sentence';
+    sentenceEl.textContent = sentence;
+    barabanSpinning = false;
+  }, 3500);
+}
+document.getElementById('baraban-spin').addEventListener('click', spinBaraban);
+
+/* ---------- Reading ---------- */
+function readingsForLevel(){
+  const maxRank = getCurrentLevelRank();
+  return READINGS
+    .map((r, i) => ({...r, idx: i}))
+    .filter(r => LEVEL_RANK[r.level] <= maxRank);
+}
+
+function openReadingList(){
+  const body = document.getElementById('reading-list-body');
+  body.innerHTML = '';
+  const list = readingsForLevel();
+  if(list.length === 0){
+    body.innerHTML = '<div class="reading-hint">Hozirgi darajangizga mos matn yo\'q. Darajani oshiring.</div>';
+  } else {
+    list.forEach(r => {
+      const item = document.createElement('div');
+      item.className = 'reading-list-item';
+      item.innerHTML = `<span class="rt-title">${r.title}</span><span class="rt-level">${r.level}</span>`;
+      item.addEventListener('click', () => openReading(r.idx));
+      body.appendChild(item);
+    });
+  }
+  document.getElementById('reading-list-overlay').classList.add('show');
+}
+function closeReadingList(){
+  document.getElementById('reading-list-overlay').classList.remove('show');
+}
+
+let speakTimer = null;
+let currentSpeakEl = null;
+let ttsUnlocked = false;
+let cachedVoice = null;
+
+function pickEnglishVoice(){
+  try {
+    if(!('speechSynthesis' in window)) return null;
+    const voices = window.speechSynthesis.getVoices();
+    if(!voices || voices.length === 0) return null;
+    return voices.find(v => v.lang === 'en-US')
+        || voices.find(v => v.lang && v.lang.startsWith('en'))
+        || voices[0];
+  } catch(e) { return null; }
+}
+try {
+  if('speechSynthesis' in window){
+    window.speechSynthesis.onvoiceschanged = () => { cachedVoice = pickEnglishVoice(); };
+    cachedVoice = pickEnglishVoice();
+  }
+} catch(e) { /* speechSynthesis blocked in this environment */ }
+
+function unlockTTS(){
+  try {
+    if(ttsUnlocked || !('speechSynthesis' in window)) return;
+    ttsUnlocked = true;
+    const warm = new SpeechSynthesisUtterance(' ');
+    warm.volume = 0;
+    window.speechSynthesis.speak(warm);
+  } catch(e) { /* ignore */ }
+}
+document.addEventListener('touchstart', unlockTTS, {once:true, passive:true});
+document.addEventListener('click', unlockTTS, {once:true});
+
+function speakWord(word, el){
+  try {
+    if(!('speechSynthesis' in window)){
+      alert("Bu brauzer ovoz o'qish (Text-to-Speech) funksiyasini qo'llab-quvvatlamaydi. Chrome brauzerida sinab ko'ring.");
+      return;
+    }
+    window.speechSynthesis.cancel();
+    const utter = new SpeechSynthesisUtterance(word);
+    utter.lang = 'en-US';
+    utter.rate = 0.85;
+    utter.pitch = 1;
+    utter.volume = 1;
+    if(!cachedVoice) cachedVoice = pickEnglishVoice();
+    if(cachedVoice) utter.voice = cachedVoice;
+    if(currentSpeakEl) currentSpeakEl.classList.remove('speaking');
+    el.classList.add('speaking');
+    currentSpeakEl = el;
+    utter.onend = () => { el.classList.remove('speaking'); };
+    utter.onerror = () => { el.classList.remove('speaking'); };
+    window.speechSynthesis.speak(utter);
+  } catch(e) {
+    console.error('TTS xatosi:', e);
+  }
+}
+
+function openReading(idx){
+  const r = READINGS[idx];
+  document.getElementById('reading-view-title').textContent = r.title;
+  const bodyEl = document.getElementById('reading-view-body');
+  bodyEl.innerHTML = '';
+  const words = r.body.split(/(\s+)/);
+  words.forEach(chunk => {
+    if(/^\s+$/.test(chunk) || chunk === ''){
+      bodyEl.appendChild(document.createTextNode(chunk));
+      return;
+    }
+    const cleanWord = chunk.replace(/[.,!?;:'"]/g, '');
+    if(!cleanWord){
+      bodyEl.appendChild(document.createTextNode(chunk));
+      return;
+    }
+    const span = document.createElement('span');
+    span.className = 'rw';
+    span.textContent = chunk;
+
+    let pressStarted = false;
+    const startPress = (e) => {
+      if(pressStarted) return;
+      pressStarted = true;
+      if(e.cancelable) e.preventDefault();
+      unlockTTS();
+      if(speakTimer) clearTimeout(speakTimer);
+      speakTimer = setTimeout(() => speakWord(cleanWord, span), 2000);
+    };
+    const cancelPress = () => {
+      pressStarted = false;
+      if(speakTimer){ clearTimeout(speakTimer); speakTimer = null; }
+    };
+    span.addEventListener('pointerdown', startPress);
+    span.addEventListener('pointerup', cancelPress);
+    span.addEventListener('pointercancel', cancelPress);
+    span.addEventListener('pointerleave', cancelPress);
+    span.addEventListener('touchstart', startPress, {passive:false});
+    span.addEventListener('touchend', cancelPress);
+    span.addEventListener('touchcancel', cancelPress);
+    span.addEventListener('contextmenu', (e) => { e.preventDefault(); return false; });
+
+    bodyEl.appendChild(span);
+  });
+  closeReadingList();
+  document.getElementById('reading-view-overlay').classList.add('show');
+}
+function closeReadingView(){
+  window.speechSynthesis.cancel();
+  document.getElementById('reading-view-overlay').classList.remove('show');
+  openReadingList();
+}
+
+/* ---------- Refresh on level change (called from profile) ---------- */
+function refreshAfterLevelChange(){
+  document.getElementById('stat-total').textContent = entriesForLevel().length;
+  newMatchRound();
+  scrambleInit = false;
+  if(document.getElementById('panel-scramble').classList.contains('active')){
+    newScrambleRound();
+    scrambleInit = true;
+  }
+  if(listInit){
+    renderWordList(document.getElementById('word-search').value);
+  }
+}
+
+/* init */
+newMatchRound();
+matchInit = true;
+window.addEventListener('resize', () => {
+  const active = document.querySelector('section.panel.active').id;
+  if(active === 'panel-match'){
+    document.getElementById('ink-lines').innerHTML = '';
+    document.querySelectorAll('.match-item.matched').forEach(el => el.classList.remove('matched'));
+  }
+});
+</script>
+</body>
+</html>
